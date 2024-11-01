@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md text-center">
+            <h1 class="text-4xl font-bold self-center mb-8">SUAS LISTAS DE COMPRAS</h1>
+            
+            <!-- Tabela para exibir dados -->
+            <!--<table class="table-auto w-full bg-white shadow-md rounded border-collapse">
+                <thead>
+                    <tr>
+                        {% for col in dados.0.keys %}
+                            <th class="border px-4 py-2 text-black ">{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in dados %}
+                        <tr>
+                            {% for value in row.values %}
+                                <td class="border px-4 py-2 text-black">{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>-->
+
+            <div class="flex justify-end">
+                <a href="{% url 'criarlista' %}">
+                    <button class="inline-block w-full bg-blue-500 text-white py-2 rounded-md text-lg hover:bg-blue-600">
+                        CRIAR LISTA
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

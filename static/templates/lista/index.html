@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body class="bg-gray-500 h-screen flex">
+    <div class="flex flex-col justify-between w-4/5 text-white p-8">
+        <h1 class="text-4xl font-bold self-center mb-8">SUAS LISTAS DE COMPRAS</h1>
+        
+        <!-- Tabela para exibir dados -->
+        <!--<table class="table-auto w-full bg-white shadow-md rounded border-collapse">
+            <thead>
+                <tr>
+                    {% for col in dados.0.keys %}
+                        <th class="border px-4 py-2 text-black ">{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in dados %}
+                    <tr>
+                        {% for value in row.values %}
+                            <td class="border px-4 py-2 text-black">{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>-->
+
+        <div class="flex justify-end">
+            <a href="{% url 'criarlista' %}">
+                <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                    CRIAR LISTA
+                </button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
