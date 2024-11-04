@@ -49,3 +49,51 @@ def adicionar_item(request, lista_id):
         form = ItemForm()
 
     return render(request, 'lista/adicionar_item.html', {'form': form, 'lista': lista})
+
+#funçao registro
+def registro(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+
+        if password != confirm_password:
+            messages.error(request, 'As senhas não coincidem. Tente novamente.')
+            return render(request, 'lista/registro.html')
+
+        try:
+            user = User.objects.create_user(username=username, email=email, password=password)
+            user.save()
+            messages.success(request, 'Conta criada com sucesso! Você pode fazer login agora.')
+            return redirect('lista/login')
+        except Exception as e:
+            messages.error(request, f'Erro ao criar conta: {e}')
+
+    return render(request, 'lista/registro.html')
+
+#funçao login
+def user_login(request):
+    if request.method == 'POST':
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Login bem-sucedido!')
+                return redirect('index')
+            else:
+                messages.error(request, 'Nome de usuário ou senha inválidos.')
+    else:
+        form = UserLoginForm()
+    
+    return render(request, 'lista/login.html', {'form': form})
+
+#funçao logout
+@login_required
+def user_logout(request):
+    logout(request)
+    messages.success(request, 'Você saiu com sucesso!')
+    return redirect('lista/login')
