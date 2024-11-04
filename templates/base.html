@@ -5,10 +5,21 @@
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="./static/output.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>ShoppingList</title>
 </head>
-<body class="bg-gray-800 h-screen flex items-center justify-center">
-    {% block content %}{% endblock %}
+<body class="bg-gray-100 font-sans leading-normal tracking-normal flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4">
+        <div class="flex justify-between">
+            <a href="{% url 'index' %}" class="text-white text-2xl font-bold">Lista de Compras</a>
+            <div>
+                <a href="{% url 'lista/login' %}" class="text-white hover:bg-blue-700 px-4 py-2 rounded">Login</a>
+                <a href="{% url 'lista/registro' %}" class="text-white hover:bg-blue-700 px-4 py-2 rounded">Registrar</a>
+            </div>
+        </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
 </body>
 </html>
