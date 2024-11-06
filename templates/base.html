@@ -12,11 +12,15 @@
     <!-- Navbar -->
     <nav class="bg-blue-600 p-4">
         <div class="flex justify-between">
-            <a href="{% url 'index' %}" class="text-white text-2xl font-bold">Lista de Compras</a>
-            <div>
-                <a href="{% url 'lista/login' %}" class="text-white hover:bg-blue-700 px-4 py-2 rounded">Login</a>
-                <a href="{% url 'lista/registro' %}" class="text-white hover:bg-blue-700 px-4 py-2 rounded">Registrar</a>
-            </div>
+            <a href="{% url 'index' %}" class="text-white text-2xl font-bold">ShoppingList</a>
+            <ul>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <a class="text-white hover:bg-blue-700 px-4 py-2 rounded" href="{% url 'lista/login' %}">Login</a></li>
+                <a class="text-white hover:bg-blue-700 px-4 py-2 rounded" href="{% url 'lista/registro' %}">Registro</a></li>
+            {% endif %}
+            </ul>
         </div>
     </nav>
     {% block content %}

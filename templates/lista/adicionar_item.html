@@ -13,13 +13,13 @@
         </div>
 
         <div class="mb-4">
-            <label for="name" class="block text-gray-700 font-medium">Nome do Item:</label>
-            {{ form.name }}
+            <label for="nome_item" class="block text-gray-700 font-medium">Nome do Item:</label>
+            {{ form.nome_item }}
         </div>
 
         <div class="mb-4">
-            <label for="quantity" class="block text-gray-700 font-medium">Quantidade:</label>
-            {{ form.quantity }}
+            <label for="quantidade" class="block text-gray-700 font-medium">Quantidade:</label>
+            {{ form.quantidade }}
         </div>
 
         <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg mt-4">
@@ -31,4 +31,5 @@
         <a href="{% url 'lista/lista_detalhes' lista.id %}" class="text-blue-500 hover:underline">Voltar para os detalhes da lista</a>
     </div>
 </div>
+{% include 'partials/_footer.html'%}
 {% endblock %}

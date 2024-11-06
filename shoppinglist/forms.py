@@ -1,44 +1,38 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import ShoppingList, Item
+from .models import ListaCompra, ItensLista
 
 class ShoppingListForm(forms.ModelForm):
-    """
-    Formulário para criar ou editar uma lista de compras.
-    """
     class Meta:
-        model = ShoppingList
-        fields = ['name']
+        model = ListaCompra
+        fields = ['nome_lista']
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'Nome da lista', 'class': 'form-control'}),
+            'nome_lista': forms.TextInput(attrs={'placeholder': 'Nome da lista', 'class': 'form-control'}),
         }
 
 class ItemForm(forms.ModelForm):
-    """
-    Formulário para adicionar ou editar um item na lista de compras.
-    """
     class Meta:
-        model = Item
-        fields = ['name', 'quantity']
+        model = ItensLista
+        fields = ['nome_item', 'quantidade']
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'Nome do item', 'class': 'form-control'}),
-            'quantity': forms.NumberInput(attrs={'placeholder': 'Quantidade', 'class': 'form-control'}),
+            'nome_item': forms.TextInput(attrs={'placeholder': 'Nome do item', 'class': 'form-control'}),
+            'quantidade': forms.NumberInput(attrs={'placeholder': 'Quantidade', 'class': 'form-control'}),
         }
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label='Senha')
-    confirm_password = forms.CharField(widget=forms.PasswordInput, label='Confirmação de Senha')
+    confir_password = forms.CharField(widget=forms.PasswordInput, label='Confirmação de Senha')
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'confir_password']
 
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
-        confirm_password = cleaned_data.get('confirm_password')
+        confir_password = cleaned_data.get('confir_password')
 
-        if password and confirm_password and password != confirm_password:
+        if password and confir_password and password != confir_password:
             raise forms.ValidationError('As senhas não coincidem.')
 
     def save(self, commit=True):
@@ -50,8 +44,5 @@ class UserRegistrationForm(forms.ModelForm):
 
 
 class UserLoginForm(forms.Form):
-    """
-    Formulário para o login do usuário.
-    """
     username = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome de usuário'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Senha'}))
