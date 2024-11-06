@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from .models import ShoppingList, Item
-from .forms import ShoppingListForm, ItemForm, UserRegistrationForm, UserLoginForm
-from django.contrib import messages
+from .models import ListaCompra, ItensLista
+from .forms import ShoppingListForm, ItemForm, UserLoginForm
+from django.contrib import messages 
 from django.contrib.auth.models import User
 
 #funçao index
@@ -19,7 +19,7 @@ def criar_lista(request):
             shopping_list = form.save(commit=False)
             shopping_list.user = request.user
             shopping_list.save()
-            messages.success(request, 'Lista de compras criada com sucesso!')
+            messages.success(request,'Lista de compras criada com sucesso!')
             return redirect('index')
     else:
         form = ShoppingListForm()
@@ -29,13 +29,13 @@ def criar_lista(request):
 #funçao detalhes da lista
 @login_required
 def lista_detalhes(request, lista_id):
-    lista = get_object_or_404(ShoppingList, id=lista_id, user=request.user)
+    lista = get_object_or_404(ListaCompra, id=lista_id, user=request.user)
     return render(request, 'lista/lista_detalhes.html', {'lista': lista})
 
 #funçao adicionar item
 @login_required
 def adicionar_item(request, lista_id):
-    lista = get_object_or_404(ShoppingList, id=lista_id, user=request.user)
+    lista = get_object_or_404(ListaCompra, id=lista_id, user=request.user)
 
     if request.method == 'POST':
         form = ItemForm(request.POST)
@@ -49,6 +49,78 @@ def adicionar_item(request, lista_id):
         form = ItemForm()
 
     return render(request, 'lista/adicionar_item.html', {'form': form, 'lista': lista})
+
+#funçao de historico
+@login_required
+def historico_compras(request):
+    listas = ListaCompra.objects.filter(user=request.user)
+    return render(request, 'lista/historico_compras.html', {'listas': listas})
+
+#funçao de reutilizar lista
+@login_required
+def reutilizar_lista(request, lista_id):
+    lista = get_object_or_404(ListaCompra, id=lista_id, user=request.user)
+    nova_lista = ListaCompra.objects.create(user=request.user, name=f'Reutilização de {lista.name}')
+
+    for item in lista.items.all():
+        ItensLista.objects.create(name=item.name, quantity=item.quantity, shopping_list=nova_lista)
+
+    messages.success(request, 'Lista reutilizada com sucesso!')
+    return redirect('lista/index')
+
+#funçao de marcar como comprado
+@login_required
+def marcar_item(request, item_id):
+    item = get_object_or_404(ItensLista, id=item_id)
+    item.purchased = not item.purchased  # Alternar estado de comprado
+    item.save()
+    messages.success(request, f'Item "{item.name}" {"comprado" if item.purchased else "não comprado"}.')
+    return redirect('lista/lista_detalhes', lista_id=item.shopping_list.id)
+
+#funçao de ediçao
+@login_required
+def editar_item(request, item_id=None):
+    item = None
+    form = None
+
+    if item_id:
+        item = get_object_or_404(ItensLista, id=item_id)
+        form = ItemForm(instance=item)
+    else:
+        form = ItemForm()
+
+    if request.method == 'POST':
+        if item_id:
+            form = ItemForm(request.POST, instance=item)
+            if form.is_valid():
+                form.save()
+                return redirect('lista/lista_detalhes', lista_id=item.lista.id)
+        else:
+            item_id = request.POST.get('item_id')
+            if item_id:
+                return redirect('editar_item_com_id', item_id=item_id)
+
+    context = {
+        'items': ItensLista.objects.all(),
+        'form': form,
+    }
+
+    return render(request, 'lista/editar_item.html', context)
+
+#funçao de filtro
+@login_required
+def lista_filtrada(request):
+    if request.method == 'GET':
+        # Captura os parâmetros de filtro
+        query = request.GET.get('query', '')
+        lista_id = request.GET.get('lista_id')
+        
+        lista = get_object_or_404(ListaCompra, id=lista_id, user=request.user)
+        
+        # Filtra os itens com base na query
+        items = lista.items.filter(name__icontains=query) if query else lista.items.all()
+
+        return render(request, 'lista/lista_filtrada.html', {'lista': lista, 'items': items})
 
 #funçao registro
 def registro(request):

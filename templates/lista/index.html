@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="flex-grow container mx-auto mt-10 mb-20">
+        <h1 class="text-3xl font-bold text-center text-gray-800">Bem-vindo à sua Lista de Compras</h1>
+        <p class="text-center text-gray-600 mt-4">Gerencie suas listas de compras de forma prática e organizada.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+            <a href="{% url 'lista/criar_lista' %}" class="bg-white shadow-md rounded-lg p-6 text-center hover:bg-blue-50">
+                <h2 class="text-xl font-semibold text-blue-600">Criar Lista de Compras</h2>
+                <p class="text-gray-600 mt-2">Crie uma nova lista de compras para organizar seus itens.</p>
+            </a>
+            <a href="{% url 'lista/historico_compras' %}" class="bg-white shadow-md rounded-lg p-6 text-center hover:bg-blue-50">
+                <h2 class="text-xl font-semibold text-blue-600">Histórico de Compras</h2>
+                <p class="text-gray-600 mt-2">Visualize e reutilize listas de compras anteriores.</p>
+            </a>
+            <a href="{% url 'lista/lista_filtrada' %}" class="bg-white shadow-md rounded-lg p-6 text-center hover:bg-blue-50">
+                <h2 class="text-xl font-semibold text-blue-600">Filtros de Visualização</h2>
+                <p class="text-gray-600 mt-2">Exiba suas listas com filtros e categorias personalizadas.</p>
+            </a>
+            <a href="{% url 'lista/marcar_item' item_id=1 %}" class="bg-white shadow-md rounded-lg p-6 text-center hover:bg-blue-50">
+                <h2 class="text-xl font-semibold text-blue-600">Marcar Itens como Comprados</h2>
+                <p class="text-gray-600 mt-2">Marque itens de sua lista como comprados ou pendentes.</p>
+            </a>
+            <a href="{% url 'lista/editar_item' item_id=1 %}" class="bg-white shadow-md rounded-lg p-6 text-center hover:bg-blue-50">
+                <h2 class="text-xl font-semibold text-blue-600">Edição de Itens</h2>
+                <p class="text-gray-600 mt-2">Edite e organize itens de suas listas de compras.</p>
+            </a>
+            <a href="{% url 'lista/lista_detalhes' lista_id=1 %}" class="bg-white shadow-md rounded-lg p-6 text-center hover:bg-blue-50">
+                <h2 class="text-xl font-semibold text-blue-600">Visualizar Detalhes da Lista</h2>
+                <p class="text-gray-600 mt-2">Veja os detalhes de cada lista de compras criada.</p>
+            </a>
+
+        </div>
+    </div>
+    {% include 'partials/_footer.html'%}
+{% endblock %}
