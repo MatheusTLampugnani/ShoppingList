@@ -74,6 +74,11 @@ def marcar_item(request, item_id):
     messages.success(request, f'Item "{item.nome_item}" {"comprado" if item.comprado else "não comprado"}.')
     return redirect('lista/lista_detalhes', lista_id=item.shopping_list.id)
 
+#funçao de historico
+@login_required
+def historico_compras(request):
+    listas = ListaCompra.objects.filter(user=request.user)
+    return render(request, 'lista/historico_compras.html', {'listas': listas})
 
 #funçao registro
 def registro(request):
