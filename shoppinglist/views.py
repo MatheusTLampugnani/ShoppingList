@@ -50,63 +50,6 @@ def adicionar_item(request, lista_id):
 
     return render(request, 'lista/adicionar_item.html', {'form': form, 'lista': lista})
 
-#funçao de historico
-@login_required
-def historico_compras(request):
-    listas = ListaCompra.objects.filter(user=request.user)
-    return render(request, 'lista/historico_compras.html', {'listas': listas})
-
-#funçao de reutilizar lista
-@login_required
-def reutilizar_lista(request, lista_id):
-    lista = get_object_or_404(ListaCompra, id=lista_id, user=request.user)
-    nova_lista = ListaCompra.objects.create(user=request.user, name=f'Reutilização de {lista.name}')
-
-    for item in lista.items.all():
-        ItensLista.objects.create(name=item.name, quantity=item.quantity, shopping_list=nova_lista)
-
-    messages.success(request, 'Lista reutilizada com sucesso!')
-    return redirect('lista/index')
-
-#funçao de marcar como comprado
-@login_required
-def marcar_item(request, item_id):
-    item = get_object_or_404(ItensLista, id=item_id)
-    item.purchased = not item.purchased  # Alternar estado de comprado
-    item.save()
-    messages.success(request, f'Item "{item.name}" {"comprado" if item.purchased else "não comprado"}.')
-    return redirect('lista/lista_detalhes', lista_id=item.shopping_list.id)
-
-#funçao de ediçao
-@login_required
-def editar_item(request, item_id=None):
-    item = None
-    form = None
-
-    if item_id:
-        item = get_object_or_404(ItensLista, id=item_id)
-        form = ItemForm(instance=item)
-    else:
-        form = ItemForm()
-
-    if request.method == 'POST':
-        if item_id:
-            form = ItemForm(request.POST, instance=item)
-            if form.is_valid():
-                form.save()
-                return redirect('lista/lista_detalhes', lista_id=item.lista.id)
-        else:
-            item_id = request.POST.get('item_id')
-            if item_id:
-                return redirect('editar_item_com_id', item_id=item_id)
-
-    context = {
-        'items': ItensLista.objects.all(),
-        'form': form,
-    }
-
-    return render(request, 'lista/editar_item.html', context)
-
 #funçao de filtro
 @login_required
 def lista_filtrada(request):
@@ -121,6 +64,16 @@ def lista_filtrada(request):
         items = lista.items.filter(name__icontains=query) if query else lista.items.all()
 
         return render(request, 'lista/lista_filtrada.html', {'lista': lista, 'items': items})
+
+#funçao de marcar como comprado
+@login_required
+def marcar_item(request, item_id):
+    item = get_object_or_404(ItensLista, id=item_id)
+    item.purchased = not item.purchased  # Alternar estado de comprado
+    item.save()
+    messages.success(request, f'Item "{item.nome_item}" {"comprado" if item.comprado else "não comprado"}.')
+    return redirect('lista/lista_detalhes', lista_id=item.shopping_list.id)
+
 
 #funçao registro
 def registro(request):
