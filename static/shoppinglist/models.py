@@ -14,7 +14,7 @@ class listaCompra(models.Model):
     def __str__(self):
         return self.nome_lista
     
-class categoria(models.Model):
+class Categoria(models.Model):
     nome_categoria = models.CharField(max_length=200)
     def __str__(self):
         return self.nome_categoria
