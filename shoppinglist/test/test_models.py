@@ -1,6 +1,4 @@
-from django.test import TestCase
 import pytest
-from django.urls import reverse
 from shoppinglist.models import ItensLista
 
 @pytest.mark.django_db
@@ -10,7 +8,6 @@ def test_criar_item():
     assert item.quantidade == 2
 
 @pytest.mark.django_db
-def test_view_lista_items(client):
-    url = reverse('shoppinglist:lista_items')
-    response = client.get(url)
-    assert response.status_code == 200
+def test_item_str():
+    item = ItensLista.objects.create(nome="Feijão", quantidade=3)
+    assert str(item) == "Feijão - 3 unidades"
