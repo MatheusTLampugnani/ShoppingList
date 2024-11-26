@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto mt-10">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Adicionar Item à Lista: {{ lista.name }}</h2>
+    
+    <form method="POST" class="bg-white shadow-md rounded-lg p-6 max-w-lg mx-auto">
+        {% csrf_token %}
+
+        <div class="mb-4">
+            {{ form.non_field_errors }}
+        </div>
+
+        <div class="mb-4">
+            <label for="nome_item" class="block text-gray-700 font-medium">Nome do Item:</label>
+            {{ form.nome_item }}
+        </div>
+
+        <div class="mb-4">
+            <label for="quantidade" class="block text-gray-700 font-medium">Quantidade:</label>
+            {{ form.quantidade }}
+        </div>
+
+        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg mt-4">
+            Adicionar Item
+        </button>
+    </form>
+
+    <div class="text-center mt-6">
+        <a href="{% url 'lista/lista_detalhes' lista.id %}" class="text-blue-500 hover:underline">Voltar para os detalhes da lista</a>
+    </div>
+</div>
+{% include 'partials/_footer.html'%}
+{% endblock %}

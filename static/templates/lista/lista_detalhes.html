@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto mt-10 max-w-2xl">
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">Detalhes da Lista: {{ lista.nome_lista }}</h1>
+    <ul class="bg-white shadow-md rounded-lg p-6 divide-y divide-gray-200">
+        {% for item in lista.items.all %}
+            <li class="flex justify-between items-center py-4">
+                <div>
+                    <span class="text-lg font-medium text-gray-700">{{ item.nome_item }}</span>
+                    <span class="text-sm text-gray-500 ml-2">- {{ item.quantidade }}</span>
+                </div>
+                <div class="flex items-center">
+                    <form method="POST" action="{% url 'lista/marcar_item' item.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="text-sm font-semibold {% if item.purchased %}text-green-500{% else %}text-red-500{% endif %}">
+                            {% if item.purchased %}
+                                ✔ Comprado
+                            {% else %}
+                                ✖ Não comprado
+                            {% endif %}
+                        </button>
+                    </form>
+                </div>
+            </li>
+        {% empty %}
+            <li class="text-center text-gray-500 py-4">Nenhum item adicionado à lista ainda.</li>
+        {% endfor %}
+    </ul>
+
+    <div class="flex justify-between mt-6">
+        <a href="{% url 'lista/adicionar_item' lista.id %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition duration-200">
+            Adicionar Item
+        </a>
+        <a href="{% url 'index' %}" class="text-blue-500 underline hover:text-blue-600">
+            Voltar para a lista de compras
+        </a>
+    </div>
+</div>
+{% include 'partials/_footer.html'%}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<body>
+    <h2 class="text-2xl">Listas Filtradas por Categoria: {{ categoria }}</h2>
+<ul>
+    {% for lista in listas %}
+        <li>{{ lista.nome }}</li>
+    {% endfor %}
+</ul>
+{% include 'partials/_footer.html'%}
+{% endblock %}
