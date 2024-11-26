@@ -1,15 +1,23 @@
-# ---> Python
+# Python bytecode files
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
-.Python
+
+# Virtual environments
 env/
+.venv/
+venv/
+env.bak/
+
+# IDE/editor settings
 .idea/
 .vscode/
+
+# .env file with environment variables
 .env
-venv/
-.venv/
+
+# Distribution / packaging
 build/
 develop-eggs/
 dist/
@@ -26,8 +34,12 @@ var/
 *.egg
 *.manifest
 *.spec
+
+# pip logs
 pip-log.txt
 pip-delete-this-directory.txt
+
+# Test / coverage reports
 htmlcov/
 .tox/
 .coverage
@@ -36,8 +48,36 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *,cover
+
+# Localization files
 *.mo
 *.pot
+
+# Documentation builds
 docs/_build/
+
+# Deployment target directories
 target/
+
+# Oracle database files (e.g. .ora)
 *.ora
+
+# Backup files and temporary files
+*.bak
+*.swp
+*~
+.DS_Store
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# pyenv versioning
+.python-version
+
+# Pycharm specific
+# Uncomment if using PyCharm
+# .idea/
+
+# VSCode specific
+# Uncomment if using VSCode
+# .vscode/
