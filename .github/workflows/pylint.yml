@@ -26,7 +26,7 @@ jobs:
       - name: Set up environment variables
         run: |
           echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
-          echo "DJANGO_SETTINGS_MODULE=ShoppingList.settings" >> $GITHUB_ENV
+          echo "DJANGO_SETTINGS_MODULE=setup.settings" >> $GITHUB_ENV
 
       - name: Run pylint
-        run: pylint ShoppingList
+        run: pylint setup
