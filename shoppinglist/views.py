@@ -44,11 +44,12 @@ def adicionar_item(request, lista_id):
             item.shopping_list = lista
             item.save()
             messages.success(request, 'Item adicionado com sucesso!')
-            return redirect('lista/lista_detalhes', lista_id=lista.id)
+            return redirect('lista_detalhes', lista_id=lista.id)
     else:
         form = ItemForm()
 
     return render(request, 'lista/adicionar_item.html', {'form': form, 'lista': lista})
+
 
 #funçao de filtro
 @login_required

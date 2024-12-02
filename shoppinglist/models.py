@@ -22,7 +22,7 @@ class ItensLista(models.Model):
     quantidade = models.PositiveIntegerField(default=1)
     unidade_massa = models.CharField(max_length=3)
     comprado = models.BooleanField(default=False)
-    listaCompra = models.ForeignKey(ListaCompra, related_name='items', on_delete=models.CASCADE)
+    listaCompra = models.ForeignKey(ListaCompra, related_name='lista', on_delete=models.CASCADE)
     categoriaItem = models.ForeignKey(Categoria, related_name='categoria', on_delete=models.CASCADE)
 
     def __str__(self):
