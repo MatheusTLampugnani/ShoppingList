@@ -5,6 +5,7 @@ from .models import ListaCompra, ItensLista
 from .forms import ShoppingListForm, ItemForm, UserLoginForm
 from django.contrib import messages 
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 #funçao index
 def index(request):
@@ -44,7 +45,9 @@ def adicionar_item(request, lista_id):
             item.shopping_list = lista
             item.save()
             messages.success(request, 'Item adicionado com sucesso!')
-            return redirect('lista_detalhes', lista_id=lista.id)
+            
+            # Redireciona para a página de detalhes da lista
+            return redirect(reverse('lista:lista_detalhes', kwargs={'lista_id': lista.id}))
     else:
         form = ItemForm()
 
@@ -54,17 +57,13 @@ def adicionar_item(request, lista_id):
 #funçao de filtro
 @login_required
 def lista_filtrada(request):
-    if request.method == 'GET':
-        # Captura os parâmetros de filtro
-        query = request.GET.get('query', '')
-        lista_id = request.GET.get('lista_id')
-        
-        lista = get_object_or_404(ListaCompra, id=lista_id, user=request.user)
-        
-        # Filtra os itens com base na query
-        items = lista.items.filter(name__icontains=query) if query else lista.items.all()
+    try:
+        lista_compras = ListaCompra.objects.all()  # Exemplo de consulta
+    except ListaCompra.DoesNotExist:
+        lista_compras = None  # Ou algum outro tratamento, como uma mensagem de erro
+    
+    return render(request, 'lista/lista_filtrada.html', {'lista_compras': lista_compras})
 
-        return render(request, 'lista/lista_filtrada.html', {'lista': lista, 'items': items})
 
 #funçao de marcar como comprado
 @login_required

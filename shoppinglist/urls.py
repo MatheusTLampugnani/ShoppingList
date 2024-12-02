@@ -4,10 +4,10 @@ from django.contrib.auth.views import LogoutView
 from .views import user_login
 
 urlpatterns = [
-    path('', views.index, name='index'),  # Página inicial
+    path('', views.index, name='lista/index'),  # Página inicial
     path('criar-lista/', views.criar_lista, name='lista/criar_lista'),  # Criar nova lista
-    path('lista/<int:lista_id>/', views.lista_detalhes, name='lista/lista_detalhes'),  # Detalhes da lista
-    path('lista/<int:lista_id>/adicionar-item/', views.adicionar_item, name='adicionar_item'),  # Adicionar item
+    path('lista/<int:lista_id>/', views.lista_detalhes, name='lista/lista_detalhes'),
+    path('lista/<int:lista_id>/adicionar-item/', views.adicionar_item, name='lista/adicionar_item'),  # Adicionar item
     path('lista-filtrada/', views.lista_filtrada, name='lista/lista_filtrada'),  # Listar itens filtrados
     path('marcar-item/<int:item_id>/', views.marcar_item, name='lista/marcar_item'),  # Marcar item como comprado
     path('historico-compras/', views.historico_compras, name='lista/historico_compras'),  # Histórico de compras 

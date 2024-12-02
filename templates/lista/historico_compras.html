@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main>
+    <section class="historico-compras">
+        <h2>Suas Compras Recentes</h2>
+
+        {% if compras %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome do Item</th>
+                        <th>Quantidade</th>
+                        <th>Preço Unitário</th>
+                        <th>Total</th>
+                        <th>Data</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for compra in compras %}
+                        <tr>
+                            <td>{{ compra.item.nome }}</td>
+                            <td>{{ compra.quantidade }}</td>
+                            <td>R$ {{ compra.item.preco }}</td>
+                            <td>{{ compra.data }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Você ainda não fez nenhuma compra.</p>
+        {% endif %}
+    </section>
+</main>
+{% include 'partials/_footer.html'%}
+{% endblock %}

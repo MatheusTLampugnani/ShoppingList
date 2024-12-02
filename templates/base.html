@@ -12,7 +12,7 @@
     <!-- Navbar -->
     <nav class="bg-blue-600 p-4">
         <div class="flex justify-between">
-            <a href="{% url 'index' %}" class="text-white text-2xl font-bold">ShoppingList</a>
+            <a href="{% url 'lista/index' %}" class="text-white text-2xl font-bold">ShoppingList</a>
             <ul>
             {% if user.is_authenticated %}
                 <a href="{% url 'logout' %}">Logout</a></li>
